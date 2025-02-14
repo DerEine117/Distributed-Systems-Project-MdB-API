@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 import requests
-from config import MDB_DATA_API_KEY, MDB_DATA_URL
+from app.config import MDB_DATA_API_KEY, MDB_DATA_URL
 
 router = APIRouter()
 
@@ -15,8 +15,18 @@ def getByName(name: str):
     if response.status_code != 200:
         raise HTTPException(status_code=response.status_code, detail="Fehler beim Abrufen der Daten")
     else:
-        return response.json()
+        data = response.json()
+        if "data" not in data:
+            raise HTTPException(status_code=500, detail="Invalid response from MDB-Data")
+
+        if data.get("records", 0) == 0:
+            raise HTTPException(status_code=204)
+
+        filtered_data = [{"id": record["id"], "titel": record["titel"]} for record in data["data"]]
+
+        return filtered_data
+        #return response.json()
     
 @router.get("/health")
 def getHealth():
-    return {"status": "ok"}
+    return {"status": "bestens"}
