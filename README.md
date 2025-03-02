@@ -1,4 +1,4 @@
-# Vertielte Systeme Abgabe: MdB API
+# Verteilte Systeme Abgabe: MdB API
 ## Von Robert Knabe
 ## DHBW Stuttgart, Kurs WWI2023F (Data Science)
 
