@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mdb-api
+  labels:
+    app: mdb-api
+spec:
+  type: NodePort 
+  ports:
+    - port: 8002
+      targetPort: 8002
+      nodePort: 30002    # Externer Port
+  selector:
+    app: mdb-api
