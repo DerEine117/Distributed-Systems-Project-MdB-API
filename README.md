@@ -106,6 +106,9 @@ Für den Namen "scholz" kommt folgende JSON Antwort von der API:
 2. Schritt: Docker bauen. (Falls nicht bereits geschehen)
 - docker build -t dist-syst-mdb-api .
 
+Hinweis: Ich habe das gesamte Projekt auf Windows mit Docker Desktop durchgeführt. Bei der Durchführung auf der bw-Lehrpool Ubuntu-VM ist zusätzlich folgender Schritt notwendig, da hier minikube verwendet wird, was eine eigene Docker-Engine nutzt:
+- minikube image load dist-syst-mdb-api:latest
+
 3. Die Objekte aus dem Verzeichnis "deployment" (hier im Ordner/ Repo) anlegen. Folgenden Befehl im Terminal im Hauptverzeichnis ausführen.
 - kubectl apply -f deployment/
 
@@ -137,7 +140,14 @@ NAME      TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
 mdb-api   NodePort   10.101.111.147   <none>        8002:30002/TCP   22m
 ```
 
-Geschafft! Nun sind beide Services in Kubernetes deployed, der Service mdb-api kann auf mdb-data zugreifen und ist wiederum extern unter dem Nodeport 30002 erreichbar. Dies kann nun ausprobiert werden:
+Geschafft! Nun sind beide Services in Kubernetes deployed, der Service mdb-api kann auf mdb-data zugreifen und ist wiederum extern unter dem Nodeport 30002 erreichbar. Dies kann nun ausprobiert werden!
+- Auf der Lehrpool ubuntu-VM ist der Service Dank minikube einfach aufrufbar:
+```sh
+minikube service mdb-api
+```
+Dies öffnet im Standwebbrowser die entsprechende Webaddresse des Services mdb-api. Nun kann der Pfad in der URL auf /health oder /api/v1/getByName?name=müller abgeändert werden.
+
+- unter Docker Dektop mit Kubeadm auf Windows ist der Service unter localhost:Nodeport erreichbar:
 
 Abfragebeispiele mit NodePort 30002:
 Im Chrome Webbrowser: http://127.0.0.1:30002/api/v1/getByName?name=scholz
