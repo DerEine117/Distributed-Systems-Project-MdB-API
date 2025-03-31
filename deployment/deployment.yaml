@@ -24,11 +24,11 @@ spec:
         - configMapRef:
             name: mdb-api-config
         env:
-        - name: MDB_API_KEY 
+        - name: MDB_DATA_API_KEY
           valueFrom:
             secretKeyRef:
               name: mdb-api-secret
-              key: MDB_API_KEY
+              key: MDB_DATA_API_KEY
         readinessProbe:
           httpGet:
             path: /health

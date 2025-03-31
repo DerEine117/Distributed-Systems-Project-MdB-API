@@ -18,6 +18,7 @@ def getByName(name: str):
         elif response.status_code != 200:
             raise HTTPException(status_code=500, detail="Error: INTERNAL SERVER ERROR")
         else:
+            print(response)
             data = response.json()
             if "data" not in data:
                 raise HTTPException(status_code=500, detail="ERROR: INTERNAL SERVER ERROR")

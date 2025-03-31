@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: mdb-api-config
 data:
-  MDB_DATA_URL: "http://mdb-data:8001"  # Addresse des anderen Containers im Kubernetes-Netzwerk
+  MDB_DATA_URL: "http://mdb-data:8001/api/v1/byName"  # Addresse des anderen Containers im Kubernetes-Netzwerk
   APP_PORT: "8002"
