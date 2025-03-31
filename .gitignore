@@ -2,3 +2,4 @@
 .venv
 app/__pycache__/
 commands.txt
+deployment/secret.yaml
