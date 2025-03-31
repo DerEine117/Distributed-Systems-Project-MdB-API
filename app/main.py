@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from app.endpoints import router
 from app.config import PORT
 
+# Starten der Anwendung
+
 app = FastAPI()
 
 app.include_router(router)
