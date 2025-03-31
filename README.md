@@ -23,9 +23,10 @@ Tbd.; teilweise unten schon indirekt Vorhanden
 Zur lokalen Ausführung muss zuerst das Repository geklont (https://github.com/DerEine117/Distributed-Systems-Project-MdB-API)  bzw die .zip Datei entpackt werden. Im Projektverzeichnis sollten sich nun neben der requirements.txt noch einige andere Dateien sowie ein Verzeichnis "app" befinden, in welchem sich der Python Programmcode befindet. Öffnen Sie für den folgenden Command ein Terminal und stellen Sie sicher, dass sie sich im Hauptverzeichnis "Distributed-Systems-Project-MdB-API" befinden und nicht im Ordner "app"!
 
 1. Schritt: Virtuelles Environment erstellen (optional aber empfehlenswert)
-- python -m venv venv
-- source venv/bin/activate   für macOS/Linux
-- venv\Scripts\activate      für Windows
+- python -m venv .venv
+- source .venv/bin/activate   für macOS/Linux
+- .venv\Scripts\activate      für Windows
+- Alternativ lassen sich die Schritte 1 und 2 bequem in VSCode ausführen, indem mit (F1) der Command "Python: Create Envirement..." ausgeführt wird 
 
 2. Schritt: Verwendete Pakete installieren:
 pip install -r requirements.txt
@@ -38,7 +39,6 @@ Erstelle eine Datei ".env" in der Hauptverzeichnisebene, also im gleichen Ordner
 
 - MDB_API_KEY=der API Key des mdb-Data Services
 - MDB_DATA_URL=http://localhost:8001/api/v1/byName = Adresse des Endpoints zur Datenabfrage
-- PORT=8002 = Port, auf den diese Anwendung reagieren soll.
 
 Hinweis: In der Abgabe aus Moodle ist die .env Datei bereits enthalten, nicht jedoch im GitHub Repository (siehe .gitignore). Dies soll einerseits ein direktes lokales Ausführen ermöglichen und andererseits die Anpassbarkeit für einen Produktiveinsatz verdeutlichen. Zusätzlich wurde folgende Annahme gemacht: Der API Key für den mdb-Data Service ist nicht im Produktiveinsatz. Er ist in der config.py als Standardwert angegeben, um zusätzliche Konfigurationsnotwendigkeit beim Ausführen der Anwendung zu vermeiden.
 
@@ -78,7 +78,7 @@ Für den Namen "scholz" kommt folgende JSON Antwort von der API:
 
 4. Schritt: Starten der beiden Docker Container, haraldu/mdb-data sowie dist-syst-mdb-api. Führe dazu die beiden folgenden Befehle aus:
 - docker run --name mdb-data -dp 8001:8001 --network dhbw --env DELAY=0 haraldu/mdb-data:1
-docker run --name mdb-api -dp 8002:8002 --network dhbw -e MDB_API_KEY=doyi6ohchieKaeL9 dist-syst-mdb-api
+docker run --name mdb-api -dp 8002:8002 --network dhbw -e MDB_DATA_API_KEY=doyi6ohchieKaeL9 dist-syst-mdb-api
 
 Erklärung der Befehle:
 - --name vergibt dem Container einen Namen, der sozusagen als Hostname fungiert. Über diesen wird der Service vom anderen Container angesprochen, anstelle einer IP Adresse oder "localhost"
@@ -106,7 +106,7 @@ Für den Namen "scholz" kommt folgende JSON Antwort von der API:
 ### Variante 3: Ausführung in Kubernetes
 Voraussetzungen: Kubeadm (Windows/Docker Desktop) oder minikube (Linux/macOS) gestartet
 
-1. Schritt: Wie bei den Varianten 1 und 2 das Repository klonen bzw die abgegebene .zip entpacken.
+1. Schritt: Wie bei den Varianten 1 und 2 das Repository klonen bzw die abgegebene .zip entpacken. Ebenfalls minikube starten (wenn nicht bereits durch Docker Desktop geschehen. Befehl für die bwLehrpool-VM: minikube start --cpus 2 --memory 6144 --driver docker)
 
 2. Schritt: Docker bauen. (Falls nicht bereits geschehen)
 - docker build -t dist-syst-mdb-api .
@@ -121,6 +121,7 @@ Hinweis: Ich habe das gesamte Projekt auf Windows mit Docker Desktop durchgefüh
 ```sh
 configmap/mdb-api-config created
 deployment.apps/mdb-api created
+secret/mdb-api-secret created
 service/mdb-api created
 ```
 
