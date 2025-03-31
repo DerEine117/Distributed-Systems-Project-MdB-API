@@ -15,7 +15,7 @@ Da die .env Datei aufgrund der Erwähnung in der .gitignore sowie der .dockerign
 Die Dockerfile basiert auf einer schlanken python:3.9-slim Basis. Dadurch, dass zuerst ins workdir gewechselt und und dann die requirements.txt kopiert wird, wird caching ermöglicht. Als nächstes werden dann die Abhängigkeiten mittels "pip" installiert, was jedoch aufgrund der Anordnung NUR DANN geschieht, wenn sich die requirements.txt geändert haben. Erst im Anschluss wird nun der Rest kopiert, der Port geöffnet und der Service gestartet.
 
 #### Beschreibung Kubernetes
-Tbd.; teilweise unten schon indirekt Vorhanden
+In Kubernetes wird die mdb-api mit den -yaml Dateien im Verzeichnis "deployment" erzeugt. Die Kommunikation mit der Daten-API funktioniert wie beim Docker über den Namen des pods. In der Datei deployment.yaml wird unter anderem festgelegt, wie der COntainer heißt und unter welchem Image er gesucht werden soll, welchen Port der Container hat und auch welche Umgebungsvariablen gesetzt werden. Ebenfalls wird der Pfad /health angegeben, womit Kubernetes regelmäßig den Zustand überprüft. In secret.yaml, was in der .gitignore enthalten ist, wird der API-Key in Base64 Kodierung festgelegt. In service.yaml wird vor allem der interne Port und der Nodeport festgelegt. Unter letzterem ist der Service dann extern erreichbar. In der configmap.yaml befindet sich vor allem die URL zum mdb-data Pod. Weitere Details sind weiter unten bei Variante 3: Ausführung in Kubernetes zu finden.
 
 ### Installation und Start der Anwendung:
 
